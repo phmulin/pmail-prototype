@@ -1,0 +1,26 @@
+{
+  "manifest_version": 2,
+  
+  "name": "Pmailbox",
+  "description": "Hello World. Version 1a",
+  "version": "1",
+
+  "permissions": [
+    "tabs","<all_urls>"
+    ],
+
+  "browser_action": {
+    "default_icon": "img/icon.png"
+  },
+
+  "content_scripts": [
+        {
+        "matches": [
+            "http://*/*",
+            "https://*/*"
+            ],
+        "js": ["js/jquery.js","js/main.js","js/cleanUI.js"],
+        "run_at": "document_end"
+        }
+    ] 
+}
