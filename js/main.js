@@ -84,6 +84,7 @@ function init(step) {
   else if (step == 3){
     console.log('installing pmail UI');
     loadPmailUI();
+    pmailEventHandler();
     console.log('**** Successful end of script! ****');
   }
 };

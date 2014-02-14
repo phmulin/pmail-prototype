@@ -19,7 +19,7 @@
             "http://*/*",
             "https://*/*"
             ],
-        "js": ["js/jquery.js","js/main.js","js/cleanUI.js"],
+        "js": ["js/jquery.js","js/updateUI.js","js/pmail.js","js/main.js"],
         "run_at": "document_end"
         }
     ] 
