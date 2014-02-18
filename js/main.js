@@ -85,6 +85,7 @@ function init(step) {
     console.log('installing pmail UI');
     loadPmailUI();
     pmailEventHandler();
+    //pmailEventHandler.loadAI("init");
     console.log('**** Successful end of script! ****');
   }
 };

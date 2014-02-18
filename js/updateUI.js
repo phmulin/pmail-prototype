@@ -56,7 +56,7 @@ function loadPmailUI() {
 
   //add AI dashboard
   var aidashboard = "\
-  <div class='nH nn' id='pmail-aidashabord' style='width: 532.8px;'>\
+  <div class='nH nn' id='pmail-aidashboard' style='width: 400px;'>\
     <div class='nH'>\
       <div class='BltHke nK' role='main'>\
         <div class='nH Cq'><div class='nJ A2'>Current Action Items</div></div>\
@@ -64,26 +64,16 @@ function loadPmailUI() {
           <div class='Cp'>\
             <div>\
               <table cellpadding='0' id=':jt' class='F cf zt'>\
-                <colgroup>\
-                  <col class='k0vOLb'>\
-                  <col class='ye'>\
-                  <col class='y5'>\
-                  <col class='WA'>\
-                  <col class='y1'>\
-                  <col class='null'>\
-                  <col class='yg'>\
-                  <col class='xX'>\
-                </colgroup>\
-                <tbody>\
-                  <tr class='zA yO' id=':k4'>\
+                <tbody id='pmail-aidashboard-list'>\
+                  <tr class='zA yO'>\
                     <td>1</td>\
                     <td>2</td>\
                     <td>3</td>\
-                    <td>4</td>\
-                    <td>5</td>\
-                    <td>6</td>\
-                    <td>7</td>\
-                    <td>8</td>\
+                  </tr>\
+                  <tr class='zA yO'>\
+                    <td>1</td>\
+                    <td>2</td>\
+                    <td>3</td>\
                   </tr>\
                 </tbody>\
               </table>\
@@ -103,43 +93,3 @@ function loadPmailUI() {
   $("#pmail-aidashabord").width(400); //AI Dashabord
 
 };
-
-/*
-<div class='nH nn' style='width: 532.8px;'>\ //main section
-    <div class='nH'>//content section
-      <div class='BltHke nK' role='main'>//spacing (minor)
-        <div class='nH Cq'><div class='nJ A2'>Awaiting Response</div></div>//Headline
-        <div class='awe4 UI UJ' gh='tl'>//wrapping
-          <div class='Cp'>//wrapping
-            <div>//wrapping
-              <table cellpadding='0' id=':jt' class='F cf zt'>
-                <colgroup>
-                  <col class='k0vOLb'>
-                  <col class='ye'>
-                  <col class='y5'>
-                  <col class='WA'>
-                  <col class='y1'>
-                  <col class='null'>
-                  <col class='yg'>
-                  <col class='xX'>
-                </colgroup>
-                <tbody>
-                  <tr class='zA yO' id=':k4'>
-                    <td>1</td>
-                    <td>2</td>
-                    <td>3</td>
-                    <td>4</td>
-                    <td>5</td>
-                    <td>6</td>
-                    <td>7</td>
-                    <td>8</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-*/

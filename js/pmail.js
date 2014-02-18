@@ -66,6 +66,12 @@ function pmailEventHandler() {
     //load 
   };
 
+  var loadAI = function(mode){
+    if(mode == 'init'){
+      console.log('jep loading');
+    }
+  };
+
 
   //add event clicks etc
 };
