@@ -1,0 +1,2 @@
+Standard View: 		https://mail.google.com/mail/u/0/
+HTML Based View: 	https://mail.google.com/mail/u/0/h/

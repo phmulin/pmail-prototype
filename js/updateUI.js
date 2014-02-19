@@ -3,20 +3,22 @@ function cleanupGmailUI() {
   //$( ".gb_g" ).css( "background-color", "green" );
 
   //remove red "Gmail" link [upper left]
-  $("div.akh.J-J5-Ji.J-JN-I").parent().css("display","none");
+  $("div.akh.J-J5-Ji.J-JN-I").parent().hide();
   //remove main top navigation and search bar [top]
-  $("div.nH.oy8Mbf.qp").css("display","none");
+  $("div.nH.oy8Mbf.qp").hide();
+  //remove Inbox, Sent, All Mail etc. links
+  $("div.ajl.aib.aZ6").hide();
   //remove hangout [lower left]
-  $("div.aeO.aeR").css("display","none");
-  $("div.aeO").css("display","none");
+  $("div.aeO.aeR").hide();
+  $("div.aeO").hide();
   $("div.aeO").removeAttr("gh");
-  $("div.aeO").next().css("display","none");
-  $("div.akc.aZ6.ajm").css("display","none");
+  $("div.aeO").next().hide();
+  $("div.akc.aZ6.ajm").hide();
   $("div.ajl.aib.aZ6.aji").height(300);
   $("div.akc.Ls77Lb.aZ6").next().remove();
   //alter left nativation bar, remove "move" (.n6) and labels (.zw)
-  $("div.n6").css("display","none");
-  $("div.zw").css("display","none");
+  $("div.n6").hide();
+  $("div.zw").hide();
 
   //Change how email list is displayed. Remove bottons and icons on the left and space out content
   //add id to email list
@@ -65,16 +67,6 @@ function loadPmailUI() {
             <div>\
               <table cellpadding='0' id=':jt' class='F cf zt'>\
                 <tbody id='pmail-aidashboard-list'>\
-                  <tr class='zA yO'>\
-                    <td>1</td>\
-                    <td>2</td>\
-                    <td>3</td>\
-                  </tr>\
-                  <tr class='zA yO'>\
-                    <td>1</td>\
-                    <td>2</td>\
-                    <td>3</td>\
-                  </tr>\
                 </tbody>\
               </table>\
             </div>\
@@ -93,3 +85,30 @@ function loadPmailUI() {
   $("#pmail-aidashabord").width(400); //AI Dashabord
 
 };
+
+
+//Renders AIs on dashboard if the callback in pmail.js is triggered
+function renderAIs(listOfAIs){
+  console.log(listOfAIs);
+
+  //remove existing AIs in list
+  $('#pmail-aidashboard-list').find('tr').remove();
+
+  //add AIs in listOfAIs
+  $.each( listOfAIs, function(key, data){
+    var actionitem_html = " <tr class='zA yO'>\
+                              <td>"+data.options.title+"</td>\
+                              <td>"+data.user+"</td>\
+                            </tr>\
+                          ";
+    $('#pmail-aidashboard-list').append(actionitem_html);
+  });
+};
+
+
+/*
+//Adds compose AI interface to new message area
+$("div.nH.aJl.nn").parent().change(function() {
+  alert( "Handler for .change() called." );
+});
+*/

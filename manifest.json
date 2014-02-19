@@ -20,7 +20,7 @@
             "https://*/*"
             ],
         "css": ["css/pmail.css"],
-        "js": ["js/jquery.js","js/updateUI.js","js/pmail.js","js/main.js"],
+        "js": ["js/jquery.js","js/firebase.js","js/updateUI.js","js/main.js","js/ai.js","js/pmail.js"],
         "run_at": "document_end"
         }
     ] 

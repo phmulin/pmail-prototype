@@ -1,5 +1,8 @@
-var jQuery_load_retries = 5;
-var gmail_load_retries = 200;
+var USERNAME = 'philippgutheim'; //hardcoding username
+var AI_ID_COUNTER = 1; //Counter to ensure unique AI ids
+
+var JQUERY_LOAD_RETRIES = 5;
+var GMAIL_LOAD_RETRIES = 200;
 
 // Script checks every 0.5 seconds for 10 seconds if the GmailUI is loaded. Returns true if it is. 
 function waitForGmailToLoad() {
@@ -28,8 +31,8 @@ function waitForGmailToLoad() {
             return true;
         }
         else{
-            gmail_load_retries = gmail_load_retries -1;
-            if(gmail_load_retries > 0)
+            GMAIL_LOAD_RETRIES = GMAIL_LOAD_RETRIES -1;
+            if(GMAIL_LOAD_RETRIES > 0)
                 window.setTimeout(waitForGmailToLoad, 500);
         }
         return (head !== undefined);
@@ -46,8 +49,8 @@ function loadjQuery() {
     //in case jquery is not loaded
     if (typeof jQuery == 'undefined') {  
       console.log('jQuery not loaded');
-      jQuery_load_retries = jQuery_load_retries -1;
-        if(jQuery_load_retries > 0){
+      JQUERY_LOAD_RETRIES = JQUERY_LOAD_RETRIES -1;
+        if(JQUERY_LOAD_RETRIES > 0){
           window.setTimeout(loadjQuery, 500);
         }
         else{
@@ -84,8 +87,6 @@ function init(step) {
   else if (step == 3){
     console.log('installing pmail UI');
     loadPmailUI();
-    pmailEventHandler();
-    //pmailEventHandler.loadAI("init");
     console.log('**** Successful end of script! ****');
   }
 };
