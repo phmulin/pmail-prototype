@@ -1,8 +1,8 @@
 //Action Item Object Constructor
 var AI = function(options){
-  this.user = USERNAME;
+  this.owner = USERNAME;
   this.id = String((new Date).getTime()) + "-" + AI_ID_COUNTER; //set epoch time as unique id
-  this.options = $.extend({  
+  this.options = $.extend({ 
     title: 'Action Item',  
     emailthread: null,  
     from: this.user,

@@ -7,8 +7,9 @@ userais.on('value', function(snapshot) {
 });
 
 //takes a list of AI objects and stores them in Firebase
-function safeNewAI(data){
-  
+function safeNewAI(ownerData, titleData){
+  var newAI = new AI({to: ownerData, from: USERNAME, title: titleData});
+  console.log(newAI);
 };
 
 

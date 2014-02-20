@@ -105,10 +105,46 @@ function renderAIs(listOfAIs){
   });
 };
 
+//If a user clicks on "compose button", we modify the compose email UI
+//and add "Assign AI"
+function addAIcomposeUI(){
+  //assign ID to compose new message element
+  $("div.nH.aJl.nn").next().attr("id", "pmail-compose");
+  //get receipient element and append AI element
+  var aiElement = "\
+    <div class='aoD az6'>\
+      <input id='pmail-ai-field' class='aoT' tabindex='1' placeholder='Assign Action Item To'>\
+    </div>\
+  ";
+  //$("#pmail-compose").find('form div:last').append(aiElement);
+  $("#pmail-compose").find('form').append(aiElement);
 
-/*
-//Adds compose AI interface to new message area
-$("div.nH.aJl.nn").parent().change(function() {
-  alert( "Handler for .change() called." );
-});
-*/
+  //if user submits email, check if AI was assigned and
+  //call function to save AI
+  $('div[aria-label="Send ‪(⌘Enter)‬"]').click(function() {
+    if($("#pmail-ai-field").val() != ''){
+      safeNewAI(
+        $("#pmail-ai-field").val(),//AI Owner
+        $("input[name='subjectbox']").val()//Email Subject as AI text
+      );
+    }
+  });
+};
+
+
+//Handles events that trigger a change in URL
+function eventHandler(){
+  
+  //if URL in Gmail changes
+  $(window).bind( 'hashchange', function(e) { 
+      //if a user clicks on "compose" button, wait until
+      //compose box has opened and call function that
+      //modifies the compose email UI
+      if(document.location.hash == "#inbox?compose=new"){
+        setTimeout(function() {
+          addAIcomposeUI();
+        }, 300);
+      }
+  });
+
+};
