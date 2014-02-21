@@ -36,18 +36,13 @@ function cleanupGmailUI() {
     $(emailrow).find("td:eq(7)").width(50);
   });
 
-  //do initial removal of navigation and ad above emails
-  cleanupGmailUIOnEvent();
-  //initialize loadPamilUI() via init()
-  init(3);
-};
-
-function cleanupGmailUIOnEvent(){
   //remove bottons, navs, and ads above emails
   $("div.D.E.G-atb.bP").parent().hide();
   $("div.D.E.G-atb.bP").parent().next().hide();
-  //$("div.nH.aqK").hide();//navbar on non-inbox sections
-}
+
+  //initialize loadPamilUI() via init()
+  init(3);
+};
 
 
 //loads the initial PmailUI
@@ -66,7 +61,17 @@ function loadPmailUI() {
           <div class='Cp'>\
             <div>\
               <table cellpadding='0' id=':jt' class='F cf zt'>\
+                <colgroup>\
+                  <col style='width:50%;'>\
+                  <col style='width:25%;'>\
+                  <col style='width:25%;'>\
+                </colgroup>\
                 <tbody id='pmail-aidashboard-list'>\
+                  <tr id='pmail-column-heads'>\
+                    <th class='nJ A2'>Title</th>\
+                    <th class='nJ A2'>From</th>\
+                    <th class='nJ A2'>To</th>\
+                  </tr>\
                 </tbody>\
               </table>\
             </div>\
@@ -89,19 +94,21 @@ function loadPmailUI() {
 
 //Renders AIs on dashboard if the callback in pmail.js is triggered
 function renderAIs(listOfAIs){
-  console.log(listOfAIs);
-
   //remove existing AIs in list
-  $('#pmail-aidashboard-list').find('tr').remove();
+  $('#pmail-aidashboard-list').find('tr').not('#pmail-column-heads').remove();
 
   //add AIs in listOfAIs
+  var aisOfUser = [];
   $.each( listOfAIs, function(key, data){
-    var actionitem_html = " <tr class='zA yO'>\
-                              <td>"+data.options.title+"</td>\
-                              <td>"+data.user+"</td>\
-                            </tr>\
-                          ";
-    $('#pmail-aidashboard-list').append(actionitem_html);
+    if(data.to == USER_EMAIL || data.from == USER_EMAIL){
+      var actionitem_html = " <tr class='zA yO'>\
+                                <td>"+data.title+"</td>\
+                                <td style='font-size: x-small;'>"+data.from.replace('@gmail.com', '')+"</td>\
+                                <td style='font-size: x-small;'>"+data.to.replace('@gmail.com', '')+"</td>\
+                              </tr>\
+                            ";
+      $('#pmail-aidashboard-list').append(actionitem_html);
+    }
   });
 };
 
@@ -116,17 +123,19 @@ function addAIcomposeUI(){
       <input id='pmail-ai-field' class='aoT' tabindex='1' placeholder='Assign Action Item To'>\
     </div>\
   ";
-  //$("#pmail-compose").find('form div:last').append(aiElement);
+  
   $("#pmail-compose").find('form').append(aiElement);
 
   //if user submits email, check if AI was assigned and
   //call function to save AI
   $('div[aria-label="Send ‪(⌘Enter)‬"]').click(function() {
     if($("#pmail-ai-field").val() != ''){
-      safeNewAI(
-        $("#pmail-ai-field").val(),//AI Owner
-        $("input[name='subjectbox']").val()//Email Subject as AI text
-      );
+      //Calls safeNewAI to store AI in Firebase.
+      //First attribute provided is the AI owner, second AI title from email subject
+      //Function returns RESTful path to AI [0] and AI object [1]
+      var response = safeNewAI($("#pmail-ai-field").val(),$("input[name='subjectbox']").val());
+      //Send out email of new AI to owner and sender
+      sendAIEmail(response, 'new');
     }
   });
 };

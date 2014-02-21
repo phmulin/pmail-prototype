@@ -1,5 +1,5 @@
 var USERNAME = 'philippgutheim'; //hardcoding username
-var AI_ID_COUNTER = 1; //Counter to ensure unique AI ids
+var USER_EMAIL = 'philipp.gutheim@gmail.com'; //hardcoding user email
 
 var JQUERY_LOAD_RETRIES = 5;
 var GMAIL_LOAD_RETRIES = 200;

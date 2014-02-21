@@ -1,22 +1,31 @@
-var db = new Firebase('https://brilliant-fire-6191.firebaseio.com/');
-userais = db.child('users/' + USERNAME);
+MAIN_REF_PATH = "https://brilliant-fire-6191.firebaseio.com/";
+var aidb = new Firebase(MAIN_REF_PATH + "ais");
 
 //If data changes, re-render list of Action items
-userais.on('value', function(snapshot) {
+aidb.on('value', function(snapshot) {
   renderAIs(snapshot.val());
 });
 
-//takes a list of AI objects and stores them in Firebase
+//creates a new AI object and safes it in Firebase
 function safeNewAI(ownerData, titleData){
-  var newAI = new AI({to: ownerData, from: USERNAME, title: titleData});
-  console.log(newAI);
+  var newAI = new AI({to: ownerData, from: USER_EMAIL, title: titleData});
+  return {
+  	path: aidb.push(newAI).toString(),
+  	to: newAI.to,
+  	from: newAI.from,
+  	title: newAI.title
+  };
 };
 
-
-//TESTING DATA:
-/*
-var new_ai = new AI({title: 'My first AI'});
-var new_ai2 = new AI({title: 'My second AI'});
-userais.push(new_ai);
-userais.push(new_ai2);
-*/
+//Sends out email AI. Takes the location of the AI in Firebase and
+//the email type as parameters
+function sendAIEmail(ai,mode){
+	//Checks type of email to be send out
+	if(mode == 'new'){
+		//send out initial email using the template
+		sendEmail(ai.from,ai.to,ai.title,renderTemplate(ai.from,ai.to,ai.title));
+	}
+	if(mode == 'reminder'){
+		//send out reminder email
+	}
+};
