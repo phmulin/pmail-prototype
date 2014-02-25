@@ -1,7 +1,5 @@
 //loads the initial Pmail UI
 function cleanupGmailUI() {
-  //$( ".gb_g" ).css( "background-color", "green" );
-
   //remove red "Gmail" link [upper left]
   $("div.akh.J-J5-Ji.J-JN-I").parent().hide();
   //remove main top navigation and search bar [top]
@@ -13,7 +11,17 @@ function cleanupGmailUI() {
   $("div.aeO").hide();
   $("div.aeO").removeAttr("gh");
   $("div.aeO").next().hide();
-  $("div.akc.aZ6.ajm").hide();
+
+  //set id for inbox, draft, sent mail, spam etc section by traversing through DOM
+  $("a.J-Ke.n0[title^='Inbox']").parents().eq(5).attr('id','gpmail-navbar');
+  //hide all sections (inbox, spam, etc) explicitely, then change inbox link and show() it
+  $("#gpmail-navbar").children().hide();
+  $("a.J-Ke.n0[title^='Inbox']").text('Back to All Emails');
+  $("a.J-Ke.n0[title^='Inbox']").parents().eq(3).attr('id','foo');
+  $("a.J-Ke.n0[title^='Inbox']").parents().eq(4).show();
+  $("div.ajl.aib.aZ6").show();
+
+  
   $("div.ajl.aib.aZ6.aji").height(300);
   $("div.akc.Ls77Lb.aZ6").next().remove();
   //alter left nativation bar, remove "move" (.n6) and labels (.zw)
@@ -22,7 +30,7 @@ function cleanupGmailUI() {
 
   //Change how email list is displayed. Remove bottons and icons on the left and space out content
   //add id to email list
-  $("table.F.cf.zt").attr('id','pmail-inbox-list');
+  $("table.F.cf.zt").attr("id","pmail-inbox-list");
   //Select email list table and set all icons to hide.
   $("#pmail-inbox-list").find("td.PF.xY, td.oZ-x3.xY.aid, td.apU.xY, td.WA.xY").hide();
   //remove the colgroup in table
@@ -48,8 +56,9 @@ function cleanupGmailUI() {
 //loads the initial PmailUI
 function loadPmailUI() {
   // add id and spacing
-  $("div.nH.oy8Mbf.nn.aeN").next().find("div.nH.nn").attr('id', 'pmail-inbox');
-  $("div.nH.oy8Mbf.nn.aeN").next().find("div.nH.nn").after('<div class="nH nn" id="pmail-inbox-spacing" style="width: 4px; height: 4px;"></div>');
+  $("div.nH.oy8Mbf.nn.aeN").next().attr('id', 'pmail-inbox');
+  $("div.nH.oy8Mbf.nn.aeN").next().after('<div class="nH nn" id="pmail-inbox-spacing" style="width: 4px; height: 4px;"></div>');
+
 
   //add AI dashboard
   var aidashboard = "\
@@ -61,17 +70,7 @@ function loadPmailUI() {
           <div class='Cp'>\
             <div>\
               <table cellpadding='0' id=':jt' class='F cf zt'>\
-                <colgroup>\
-                  <col style='width:50%;'>\
-                  <col style='width:25%;'>\
-                  <col style='width:25%;'>\
-                </colgroup>\
                 <tbody id='pmail-aidashboard-list'>\
-                  <tr id='pmail-column-heads'>\
-                    <th class='nJ A2'>Title</th>\
-                    <th class='nJ A2'>From</th>\
-                    <th class='nJ A2'>To</th>\
-                  </tr>\
                 </tbody>\
               </table>\
             </div>\
@@ -85,9 +84,11 @@ function loadPmailUI() {
   //Add AI Dashboard
   $("#pmail-inbox-spacing").after(aidashboard);
 
-  //Adjust CSS of Inbox and AI Dashabord
-  $("#pmail-inbox").width(800); //Inbox
-  $("#pmail-aidashabord").width(400); //AI Dashabord
+  //Adjust CSS of Left-Navigation, Inbox and AI Dashbord
+  $("div.nH.oy8Mbf.nn.aeN").attr('id','pmail-left-navigation');
+  $("#pmail-left-navigation").width(170);
+  $("#pmail-inbox").width(820); //Inbox
+  $("#pmail-aidashbord").width(400); //AI Dashbord
 
 };
 
@@ -95,20 +96,39 @@ function loadPmailUI() {
 //Renders AIs on dashboard if the callback in pmail.js is triggered
 function renderAIs(listOfAIs){
   //remove existing AIs in list
-  $('#pmail-aidashboard-list').find('tr').not('#pmail-column-heads').remove();
+  $('#pmail-aidashboard-list').find('tr').remove();
 
   //add AIs in listOfAIs
   var aisOfUser = [];
-  $.each( listOfAIs, function(key, data){
+  $.each( listOfAIs, function(aiId, data){
     if(data.to == USER_EMAIL || data.from == USER_EMAIL){
-      var actionitem_html = " <tr class='zA yO'>\
-                                <td>"+data.title+"</td>\
-                                <td style='font-size: x-small;'>"+data.from.replace('@gmail.com', '')+"</td>\
-                                <td style='font-size: x-small;'>"+data.to.replace('@gmail.com', '')+"</td>\
+      var actionitem_html = "\
+                              <tr class='zA yO'>\
+                                  <td>\
+                                      <div class='aifield' id="+aiId+">\
+                                          <div>"+data.title+"</div>\
+                                          <div>\
+                                              <div class='aidetails spc status'>("+data.status+")</div>\
+                                              <div class='aidetails'>"+data.from.replace('@gmail.com', '')+"</div>\
+                                              <div class='aidetails'>--></div>\
+                                              <div class='aidetails spc'>"+data.to.replace('@gmail.com', '')+"</div>\
+                                              <div class='aidetails float-right'><img src='http://static.freepik.com/free-photo/calendar-icon-in-black_318-9776.jpg' width='20' height='20' class='aiddetails'/>"+data.dueDate+"</div>\
+                                          </div>\
+                                      </div>\
+                                  </td>\
                               </tr>\
                             ";
       $('#pmail-aidashboard-list').append(actionitem_html);
     }
+  });
+
+  //Adding eventHandler on click of AI
+  //If clicked, we copy and paste the aiId into the hidden search
+  //interface of gmail and trigger click event on search button
+  $('.aifield').click(function () {
+    var aiId = '"Action Item ID: ' + $(this).attr('id') + '"';
+    $('form#gbqf').find('input#gbqfq').val(aiId);
+    $('form#gbqf').find('button#gbqfb').trigger("click");
   });
 };
 
@@ -146,14 +166,46 @@ function eventHandler(){
   
   //if URL in Gmail changes
   $(window).bind( 'hashchange', function(e) { 
+      var hash = document.location.hash;
+      var hash_q = hash.split('?');
+      var hash_s = hash.split('/');
       //if a user clicks on "compose" button, wait until
       //compose box has opened and call function that
       //modifies the compose email UI
-      if(document.location.hash == "#inbox?compose=new"){
+      if(hash_q[hash_q.length-1] == "compose=new"){
         setTimeout(function() {
           addAIcomposeUI();
         }, 300);
       }
-  });
 
+      //If the user opens an email that was searched through
+      //the AI dashabord interface OR opened an email through the
+      //regular inbox: rearrange UI
+      else if(hash_s[hash_s.length-3] == "#search" || hash_s[hash_s.length-2] == "#inbox"){
+        //expand email details by hiding empty area
+        $("td.Bu.y3").hide();
+        //hide "archive, spam and delete" navigation
+        $("div.T-I.J-J5-Ji.lR.T-I-ax7.T-I-Js-IF.ar7").hide();
+        $("div.T-I.J-J5-Ji.lR.T-I-ax7.T-I-Js-IF.ar7").next().hide();
+        $("div.T-I.J-J5-Ji.lR.T-I-ax7.T-I-Js-IF.ar7").next().next().hide();
+        //hide "move to inbox, labels" navigation
+        //(2x because classes are different if you open through search or through inbox)
+        $("div.T-I.J-J5-Ji.aFj.T-I-ax7.L3").hide();
+        $("div.T-I.J-J5-Ji.aFj.T-I-ax7.L3").next().hide();
+        $("div.T-I.J-J5-Ji.T-I-Js-IF.ar7.ns.T-I-ax7.L3").hide();
+        $("div.T-I.J-J5-Ji.T-I-Js-IF.ar7.ns.T-I-ax7.L3").next().hide();
+        //hide "more" navigation
+        $("div.T-I.J-J5-Ji.ar7.nf.T-I-ax7.L3").hide();
+        //hide settings etc navigation
+        $("div.adF").hide();  
+      }
+
+      //If the user has searched for an email and the results are
+      //displayed in a list
+      else if(hash_s[hash_s.length-2] == "#search"){
+        //hide "selecting, refresh, and settings etc" navigation
+        $("div.nH.aqK").children().hide();
+        $("div.l2.ov").hide();
+      }
+  });
 };

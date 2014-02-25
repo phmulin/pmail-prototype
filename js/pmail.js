@@ -13,7 +13,9 @@ function safeNewAI(ownerData, titleData){
   	path: aidb.push(newAI).toString(),
   	to: newAI.to,
   	from: newAI.from,
-  	title: newAI.title
+  	title: newAI.title,
+  	dueDate: newAI.dueDate,
+  	status: newAI.status
   };
 };
 
@@ -22,8 +24,10 @@ function safeNewAI(ownerData, titleData){
 function sendAIEmail(ai,mode){
 	//Checks type of email to be send out
 	if(mode == 'new'){
+		//split url to firebase reference and retrieve ai ID
+		var aiId = ai.path.split("/")[ai.path.split("/").length-1];
 		//send out initial email using the template
-		sendEmail(ai.from,ai.to,ai.title,renderTemplate(ai.from,ai.to,ai.title));
+		sendEmail(ai.from,ai.to,ai.title,renderTemplate(aiId,ai.from,ai.to,ai.title,ai.dueDate));
 	}
 	if(mode == 'reminder'){
 		//send out reminder email
