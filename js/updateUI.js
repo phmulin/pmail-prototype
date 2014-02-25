@@ -11,6 +11,8 @@ function cleanupGmailUI() {
   $("div.aeO").hide();
   $("div.aeO").removeAttr("gh");
   $("div.aeO").next().hide();
+  //deactivate scrolling bar of inbox
+  $("div.Tm.aeJ").css('overflow-y','');
 
   //set id for inbox, draft, sent mail, spam etc section by traversing through DOM
   $("a.J-Ke.n0[title^='Inbox']").parents().eq(5).attr('id','gpmail-navbar');
@@ -105,6 +107,17 @@ function renderAIs(listOfAIs){
       var actionitem_html = "\
                               <tr class='zA yO'>\
                                   <td>\
+                                      <form class='aioptions-form'>\
+                                        <select class='aioptions-select' id="+aiId+">\
+                                            <option value=''>Change Options...</option>\
+                                            <option value='confirm'>Confirm Action Item</option>\
+                                            <option value='update'>Send Update</option>\
+                                            <option value='remind'>Send Reminder</option>\
+                                            <option value='close'>Close Action Item</option>\
+                                            <option value='delegate'>Delegate to Person</option>\
+                                            <option value='extend'>Extend Deadline</option>\
+                                        </select>\
+                                      </form>\
                                       <div class='aifield' id="+aiId+">\
                                           <div>"+data.title+"</div>\
                                           <div>\
@@ -119,6 +132,60 @@ function renderAIs(listOfAIs){
                               </tr>\
                             ";
       $('#pmail-aidashboard-list').append(actionitem_html);
+
+      //Add 'on change' triggers to the option drop down of each AI in the dashboard
+      $("select.aioptions-select").change(function() {
+        
+        var aiId = $(this).attr("id");
+
+        //If choice is to confirm AI, refresh status of AI to confirmed
+        if($(this).val() == "confirm"){
+          setAIById(aiId, "status", "confirmed");
+        }
+        //If choice is to close the AI, set status of AI in Firebase
+        //to closed (it will not appear in the list anymore)
+        else if($(this).val() == "close"){
+          setAIById(aiId, "status", "closed");
+        }
+        //If choice is to send an update to AI sender/"from",
+        //prompt user to type in the update and send email to AI sender
+        else if($(this).val() == "update"){
+          var updateString = prompt("What is the update for Action Item?","10 Word update goes here...");
+          if(updateString != ""){
+            /*
+            DUMMY FUNCTION: NOT IMPLEMENTING IN PROTOTYPE
+            */
+            alert('[DUMMY] Update sent!');
+          }
+        }
+        //If choice is to send a reminder to owner, prompt to ensure
+        //user's choice and send automated email
+        else if($(this).val() == "remind"){
+          if(confirm('Do you want to send reminder?')){
+            /*
+            DUMMY FUNCTION: NOT IMPLEMENTING IN PROTOTYPE
+            */
+            alert('[DUMMY] Reminder sent!');
+          }
+        }
+        //If choice is to delegate AI, prompt user to get new owner/"to"
+        //and then update AI in Firebase
+        else if($(this).val() == "delegate"){
+          var newOwner = prompt("Who do you want to ask to complete the Action Item?","john.doe@email.com");
+          if (newOwner != ""){
+            /*
+            DUMMY FUNCTION: NOT IMPLEMENTING IN PROTOTYPE
+            */
+            alert('[DUMMY] AI Delegated!');
+          }
+        }
+        //If choice is to extend deadline, update AI in Firebase
+        else if($(this).val() == "extend"){
+          /*
+          DUMMY FUNCTION: NOT IMPLEMENTING IN PROTOTYPE
+          */
+        }
+      });
     }
   });
 

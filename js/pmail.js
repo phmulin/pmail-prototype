@@ -33,3 +33,27 @@ function sendAIEmail(ai,mode){
 		//send out reminder email
 	}
 };
+
+//Tries to retrieve ai by adding a listener at URL.
+//Creates AI object and returns it.
+function getAIById(aiId){
+	var ref = new Firebase(MAIN_REF_PATH + "ais/" + aidId);
+	ref.on('value', function(snapshot){
+		ref.off('value');
+		var ai = new AI(snapshot.val());
+		return ai;
+	});
+}
+
+//Sets state of attribute of AI
+function setAIById(aiId, attribute, value){
+	var ref = new Firebase(MAIN_REF_PATH + "ais/" + aidId);
+	ref.on('value', function(snapshot){
+		ref.off('value');
+		var ai = new AI(snapshot.val());
+
+		if(attribute == "status"){
+			ai.status = value;
+		}
+	});
+}

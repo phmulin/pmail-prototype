@@ -32,3 +32,11 @@ Defines style for the lower info area of each AI item
   padding-left: 2px;
   padding-right: 2px;
 }
+
+.aioptions-form{
+	font-size: 10px;
+	float: right;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	padding-right: 5px;
+}
