@@ -61,26 +61,26 @@ function renderAIs(listOfAIs){
       var actionitem_html = "\
                               <tr class='zA yO'>\
                                   <td>\
-                                      <form class='aioptions-form'>\
-                                        <select class='aioptions-select' id="+aiId+">\
-                                            <option value=''>Change Status...</option>\
-                                            <option value='confirm'>Confirm Action Item</option>\
-                                            <option value='close'>Close Action Item</option>\
-                                        </select>\
-                                      </form>\
                                       <div class='aifield' id="+aiId+">\
                                           <div>"+data.title+"</div>\
                                           <div>\
                                               <div class='aidetails spc status'>("+data.status+")</div>\
-                                              <div class='aidetails'>"+data.from.replace('@gmail.com', '')+"</div>\
+                                              <div class='aidetails'>"+data.from.replace('@gmail.com', '').replace('@google.com','')+"</div>\
                                               <div class='aidetails'>--></div>\
-                                              <div class='aidetails spc'>"+data.to.replace('@gmail.com', '')+"</div>\
-                                              <div class='aidetails float-right'><img src='http://static.freepik.com/free-photo/calendar-icon-in-black_318-9776.jpg' width='20' height='20' class='aiddetails'/>"+data.dueDate+"</div>\
+                                              <div class='aidetails spc'>"+data.to.replace('@gmail.com', '').replace('@google.com','')+"</div>\
+                                              <form class='aioptions-form'>\
+                                                <select class='aioptions-select' id="+aiId+">\
+                                                    <option value=''>Change Status...</option>\
+                                                    <option value='confirm'>Confirm Action Item</option>\
+                                                    <option value='close'>Close Action Item</option>\
+                                                </select>\
+                                              </form>\
                                           </div>\
                                       </div>\
                                   </td>\
                               </tr>\
                             ";
+      //<div class='aidetails float-right'><img src='http://static.freepik.com/free-photo/calendar-icon-in-black_318-9776.jpg' width='20' height='20' class='aiddetails'/>"+data.dueDate+"</div>\
       
       $('#pmail-aidashboard-list').append(actionitem_html);
 

@@ -9,6 +9,7 @@ Defines style for the lower info area of each AI item
 	padding-top: 6px;
 	padding-bottom: 3px;
 	cursor: pointer;
+	font-size: 13px;
 }
 
 .aidetails{
