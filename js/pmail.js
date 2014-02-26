@@ -50,62 +50,35 @@ function setAIById(aiId, attribute, value){
 //Renders AIs on dashboard if the callback in pmail.js is triggered
 function renderAIs(listOfAIs){
   //remove existing AIs in list
-  $('#pmail-aidashboard-list').find('tr').remove();
+  $('#pmail-aidashboard-list').find('li').remove();
   
   //add AIs in listOfAIs
   var aisOfUser = [];
-  //USER_EMAIL = "philipp.gutheim@gmail.com";
   $.each(listOfAIs, function(aiId, data){
     //Render Action item if it is either owned by user or sent by user and not closed
     if((data.to == USER_EMAIL || data.from == USER_EMAIL) && data.status != 'closed'){
-      var actionitem_html = "\
-                              <tr class='zA yO'>\
-                                  <td>\
-                                      <div class='aifield' id="+aiId+">\
-                                          <div>"+data.title+"</div>\
-                                          <div>\
-                                              <div class='aidetails spc status'>("+data.status+")</div>\
-                                              <div class='aidetails'>"+data.from.replace('@gmail.com', '').replace('@google.com','')+"</div>\
-                                              <div class='aidetails'>--></div>\
-                                              <div class='aidetails spc'>"+data.to.replace('@gmail.com', '').replace('@google.com','')+"</div>\
-                                              <form class='aioptions-form'>\
-                                                <select class='aioptions-select' id="+aiId+">\
-                                                    <option value=''>Change Status...</option>\
-                                                    <option value='confirm'>Confirm Action Item</option>\
-                                                    <option value='close'>Close Action Item</option>\
-                                                </select>\
-                                              </form>\
-                                          </div>\
-                                      </div>\
-                                  </td>\
-                              </tr>\
-                            ";
-      //<div class='aidetails float-right'><img src='http://static.freepik.com/free-photo/calendar-icon-in-black_318-9776.jpg' width='20' height='20' class='aiddetails'/>"+data.dueDate+"</div>\
-      
+      var actionitem_html = "<li class='parent-li' id="+aiId+"><span class='parent-li-title'>"+data.title+"</span> <span class='parent-li-status'>"+data.status+"</span></li>";
       $('#pmail-aidashboard-list').append(actionitem_html);
-
-      //Add 'on change' triggers to the option drop down of each AI in the dashboard
-      $("select#"+aiId).change(function() {
-        
-        var aiId = $(this).attr("id");
-
-        //If choice is to confirm AI, refresh status of AI to confirmed
-        if($(this).val() == "confirm"){
-          setAIById(aiId, "status", "active");
-        }
-        //If choice is to close the AI, set status of AI in Firebase
-        //to closed (it will not appear in the list anymore)
-        else if($(this).val() == "close"){
-          setAIById(aiId, "status", "closed");
-        }
-      });
     }
+  });
+
+  //make every AI droppable and add sub AI structure)
+  $('li.parent-li').each(function() {
+    $(this).droppable({
+      drop: function (event, ui) {
+        $(this).append("\
+          <ol id='placeholder' class='child-ol'>\
+            <li class='child-li' id='placeholder-li'>Title of Child AI</li>\
+          </ol>\
+          ");
+      }
+    });
   });
 
   //Adding eventHandler on click of AI
   //If clicked, we copy and paste the aiId into the hidden search
   //interface of gmail and trigger click event on search button
-  $('.aifield').click(function () {
+  $('.parent-li').click(function () {
     var aiId = '"Action Item ID: ' + $(this).attr('id') + '"';
     $('form#gbqf').find('input#gbqfq').val(aiId);
     $('form#gbqf').find('button#gbqfb').trigger("click");

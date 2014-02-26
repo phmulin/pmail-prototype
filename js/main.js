@@ -1,4 +1,4 @@
-var USER_EMAIL = 'philipp.gutheim@gmail.com'; //USER_EMAIL will be set in setUser_Email by main() as soon as Gmail UI is loaded
+var USER_EMAIL = ''; //USER_EMAIL will be set in setUser_Email by main() as soon as Gmail UI is loaded
 
 var JQUERY_LOAD_RETRIES = 5;
 var GMAIL_LOAD_RETRIES = 200;

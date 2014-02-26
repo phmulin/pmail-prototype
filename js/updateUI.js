@@ -81,10 +81,8 @@ function loadPmailUI() {
         <div class='awe4 UI UJ' gh='tl'>\
           <div class='Cp'>\
             <div>\
-              <table cellpadding='0' id=':jt' class='F cf zt'>\
-                <tbody id='pmail-aidashboard-list'>\
-                </tbody>\
-              </table>\
+              <ol id='pmail-aidashboard-list' class='parent-ol'>\
+              </ol>\
             </div>\
           </div>\
         </div>\
@@ -144,6 +142,7 @@ function eventHandler(){
       var hash = document.location.hash;
       var hash_q = hash.split('?');
       var hash_s = hash.split('/');
+      
       //if a user clicks on "compose" button, wait until
       //compose box has opened and call function that
       //modifies the compose email UI
@@ -172,7 +171,12 @@ function eventHandler(){
         //hide "more" navigation
         $("div.T-I.J-J5-Ji.ar7.nf.T-I-ax7.L3").hide();
         //hide settings etc navigation
-        $("div.adF").hide();  
+        $("div.adF").hide();
+
+        //Add the drag and drop buttons to the email
+        //PLACEHOLDER
+
+
       }
 
       //If the user has searched for an email and the results are

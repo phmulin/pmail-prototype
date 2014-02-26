@@ -2,7 +2,7 @@
 
 /*
 Defines style for the lower info area of each AI item
- */
+ 
 
 .aifield{
 	border-top: 1px solid rgb(152,152,152);
@@ -40,4 +40,14 @@ Defines style for the lower info area of each AI item
 	padding-top: 5px;
 	padding-bottom: 5px;
 	padding-right: 5px;
+}
+*/
+
+ai-ol {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+ai-li {
+
 }
