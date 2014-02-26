@@ -1,8 +1,16 @@
-var USERNAME = 'philippgutheim'; //hardcoding username
-var USER_EMAIL = 'philipp.gutheim@gmail.com'; //hardcoding user email
+var USER_EMAIL = 'philipp.gutheim@gmail.com'; //USER_EMAIL will be set in setUser_Email by main() as soon as Gmail UI is loaded
 
 var JQUERY_LOAD_RETRIES = 5;
 var GMAIL_LOAD_RETRIES = 200;
+
+//Set USER_EMAIL by checking what gmail account is used
+//Uses the loading screen of Gmail "loading email@address.com..." to get email account
+function setUser_Email(){
+  if($("div.msg").text().split(' ')[1].replace('…','') != null){
+    USER_EMAIL = $("div.msg").text().split(' ')[1].split('…')[0];
+  }
+  console.log('new USER_EMAIL: ' + USER_EMAIL);
+}
 
 // Script checks every 0.5 seconds for 10 seconds if the GmailUI is loaded. Returns true if it is. 
 function waitForGmailToLoad() {
@@ -78,6 +86,7 @@ function init(step) {
   }
   else if (step == 1){
     loadjQuery();
+    setUser_Email();
   }
   else if (step == 2){
     //cleanUI.js cleanupGmailUI()
@@ -86,6 +95,7 @@ function init(step) {
   }
   else if (step == 3){
     console.log('installing pmail UI');
+    loadActionItems();
     loadPmailUI();
     eventHandler();
     console.log('**** Successful end of script! ****');
