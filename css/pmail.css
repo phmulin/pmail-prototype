@@ -51,3 +51,23 @@ ai-ol {
 ai-li {
 
 }
+
+.draggable-p {
+    position: absolute;
+    top: -8px;
+    left: 8px;
+}
+
+.draggable-div {
+    background-image:url('https://dl.dropboxusercontent.com/u/60282168/pmail-button.png');
+    width: 62px;
+    height: 32px;
+    position: relative;
+    text-align: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    font: -webkit-small-control;
+    display: inline-block;
+    margin-right: 10px;
+	top: -7px;
+}

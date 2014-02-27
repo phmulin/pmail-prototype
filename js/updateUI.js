@@ -2,14 +2,15 @@
 function cleanupGmailUI() {
   //remove red "Gmail" link [upper left]
   $("div.akh.J-J5-Ji.J-JN-I").parent().hide();
-  //remove main top navigation and search bar [top]
-  $("div.nH.oy8Mbf.qp").hide();
+  //DO-TO: Hide only the icons on the right OLD: remove main top navigation and search bar [top]
+  //$("div.nH.oy8Mbf.qp").hide();
   
   //remove hangout [lower left]
-  $("div.aeO.aeR").hide();
-  $("div.aeO").hide();
-  $("div.aeO").removeAttr("gh");
-  $("div.aeO").next().hide();
+  //$("div.aeO.aeR").hide();
+  //$("div.aeO").hide();
+  //$("div.aeO").removeAttr("gh");
+  //$("div.aeO").next().hide();
+  
   //deactivate scrolling bar of inbox
   $("div.Tm.aeJ").css('overflow-y','');
 
@@ -173,10 +174,15 @@ function eventHandler(){
         //hide settings etc navigation
         $("div.adF").hide();
 
-        //Add the drag and drop buttons to the email
-        //PLACEHOLDER
-
-
+        //Add the draggable "Awaiting Response" bottons and use gmail email ID as id
+        var dropBottons = "\
+            <div class='draggable-div' id='"+hash_s[hash_s.length-1]+"'>\
+              <p class='draggable-p'>Awating<br>Response</p>\
+            </div>\
+        ";
+        $("div.h7.hn.ie.nH.oy8Mbf").find("div[aria-label='Starred']").parent().append(dropBottons);
+        $('div.draggable-div').draggable();
+        $("div.h7.hn.ie.nH.oy8Mbf").find("div[aria-label='Starred']").hide();
       }
 
       //If the user has searched for an email and the results are
